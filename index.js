@@ -1,7 +1,8 @@
 const axios = require('axios');
 const fs = require('fs');
+
+const { execFile } = require('child_process');
 const path = require('path');
-const { exec } = require('child_process');
 const schedule = require('node-schedule');
 
 // 获取Bing每日壁纸的URL
@@ -27,39 +28,35 @@ async function downloadWallpaper(url, filepath) {
 
 // 设置壁纸
 async function setWallpaper(filepath) {
-    const script = `
-    $path = "${filepath}"
-    Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class Wallpaper {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-        public static void SetWallpaper(string path) {
-            SystemParametersInfo(0x0014, 0, path, 0x0001 | 0x0002);
-        }
-    }
-    "@
-    [Wallpaper]::SetWallpaper($path)
-    `;
-    exec(`powershell -command "${script}"`, (error, stdout, stderr) => {
+
+    // Define the path to the PowerShell script
+    const psScriptPath = path.join(__dirname, 'setWallpaper.ps1');
+
+    // Define the path to the wallpaper image
+    const wallpaperPath = path.join(__dirname, 'download/bing_wallpaper.jpg');
+
+    // Execute the PowerShell script with the wallpaper path as an argument
+
+
+    execFile('powershell.exe', ['-File', psScriptPath, wallpaperPath], (error, stdout, stderr) => {
         if (error) {
-            console.error(`Error setting wallpaper: ${error.message}`);
+            console.error(`Error: ${error.message}`);
             return;
         }
         if (stderr) {
-            console.error(`PowerShell error: ${stderr}`);
+            console.error(`Stderr: ${stderr}`);
             return;
         }
-        console.log('Wallpaper updated successfully!');
+        console.log(`Stdout: ${stdout}`);
     });
+
 }
 
 // 主函数
 async function updateWallpaper() {
     try {
         const url = await getBingWallpaperUrl();
-        const filepath = path.join(__dirname, 'bing_wallpaper.jpg');
+        const filepath = path.join(__dirname, 'download/bing_wallpaper.jpg');
         await downloadWallpaper(url, filepath);
         await setWallpaper(filepath);
     } catch (error) {
