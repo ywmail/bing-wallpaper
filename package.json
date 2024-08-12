@@ -1,0 +1,17 @@
+{
+  "name": "bing-wallpaper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "node-schedule": "^2.1.1",
+    "wallpaper": "^7.2.1"
+  }
+}
