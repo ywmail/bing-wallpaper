@@ -7,7 +7,7 @@ const schedule = require('node-schedule');
 
 // 获取Bing每日壁纸的URL
 async function getBingWallpaperUrl() {
-    const response = await axios.get('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+    const response = await axios.get('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN');
     const imageUrl = 'https://www.bing.com' + response.data.images[0].url;
     return imageUrl;
 }
