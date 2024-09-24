@@ -38,7 +38,7 @@ async function setWallpaper(filepath) {
     // Execute the PowerShell script with the wallpaper path as an argument
 
 
-    execFile('powershell.exe', ['-File', psScriptPath, wallpaperPath], (error, stdout, stderr) => {
+    execFile('powershell.exe', ['-File', psScriptPath, wallpaperPath], { windowsHide: true }, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             return;
