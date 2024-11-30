@@ -1,8 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
-
-const { execFile } = require('child_process');
 const path = require('path');
+const { execFile } = require('child_process');
 const schedule = require('node-schedule');
 
 // 获取Bing每日壁纸的URL
@@ -19,6 +18,8 @@ async function downloadWallpaper(url, filepath) {
         responseType: 'stream',
     });
     return new Promise((resolve, reject) => {
+        // Ensure the directory exists
+        fs.mkdirSync(path.dirname(filepath), { recursive: true });
         const writer = fs.createWriteStream(filepath);
         response.data.pipe(writer);
         writer.on('finish', resolve);
@@ -28,17 +29,11 @@ async function downloadWallpaper(url, filepath) {
 
 // 设置壁纸
 async function setWallpaper(filepath) {
-
     // Define the path to the PowerShell script
     const psScriptPath = path.join(__dirname, 'setWallpaper.ps1');
 
-    // Define the path to the wallpaper image
-    const wallpaperPath = path.join(__dirname, 'download/bing_wallpaper.jpg');
-
     // Execute the PowerShell script with the wallpaper path as an argument
-
-
-    execFile('powershell.exe', ['-File', psScriptPath, wallpaperPath], { windowsHide: true }, (error, stdout, stderr) => {
+    execFile('powershell.exe', ['-File', psScriptPath, filepath], { windowsHide: true }, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             return;
@@ -49,7 +44,6 @@ async function setWallpaper(filepath) {
         }
         console.log(`Stdout: ${stdout}`);
     });
-
 }
 
 // 主函数
