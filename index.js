@@ -3,10 +3,17 @@ const fs = require('fs');
 const path = require('path');
 const { execFile } = require('child_process');
 const schedule = require('node-schedule');
+const { ProxyAgent } = require('proxy-agent');
+
+const agent = new ProxyAgent();
 
 // 获取Bing每日壁纸的URL
 async function getBingWallpaperUrl() {
-    const response = await axios.get('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=ja-JP');
+    const response = await axios.get('https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=ja-JP', {
+        httpAgent: agent,
+        httpsAgent: agent,
+    });
+
     const imageUrl = 'https://www.bing.com' + response.data.images[0].url;
     return imageUrl;
 }
@@ -16,7 +23,10 @@ async function downloadWallpaper(url, filepath) {
     const response = await axios({
         url,
         responseType: 'stream',
+        httpAgent: agent,
+        httpsAgent: agent,
     });
+
     return new Promise((resolve, reject) => {
         // Ensure the directory exists
         fs.mkdirSync(path.dirname(filepath), { recursive: true });
