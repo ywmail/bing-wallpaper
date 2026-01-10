@@ -1,5 +1,7 @@
 # Bing Wallpaper
 
+English | [简体中文](README.zh-CN.md)
+
 A Node.js application that automatically downloads and sets Bing's daily wallpaper as your desktop background.
 
 ## Features
