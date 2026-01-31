@@ -1,6 +1,6 @@
 # Bing Wallpaper
 
-A Node.js application that automatically downloads and sets Bing's daily wallpaper as your desktop background.
+A Node.js application that automatically downloads and sets Bing's daily wallpaper as your desktop background using the Peapix API.
 
 ## Features
 
@@ -31,8 +31,7 @@ A Node.js application that automatically downloads and sets Bing's daily wallpap
 
 The application can be configured by editing the `config.js` file:
 
-- `bingApiUrl`: The Bing API URL to fetch wallpaper information
-- `bingBaseUrl`: Base URL for Bing images
+- `wallpaperApiUrl`: The Peapix API URL to fetch wallpaper information
 - `downloadDir`: Directory to store downloaded wallpapers
 - `wallpaperFilename`: Filename for the downloaded wallpaper
 - `updateSchedule`: Cron pattern for the update schedule
