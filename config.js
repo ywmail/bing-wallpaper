@@ -1,4 +1,4 @@
-// Configuration for Bing Wallpaper
+// Configuration for Bing Wallpaper (via Peapix API)
 module.exports = {
     // Peapix API URL (alternative Bing wallpaper provider)
     wallpaperApiUrl: 'https://peapix.com/bing/feed?country=jp&n=1',
