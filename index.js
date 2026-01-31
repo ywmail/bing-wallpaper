@@ -20,21 +20,21 @@ function log(message, isError = false) {
 }
 
 /**
- * Get the URL of today's Bing wallpaper
+ * Get the URL of today's wallpaper
  * @returns {Promise<string>} The URL of the wallpaper
  */
-async function getBingWallpaperUrl() {
+async function getWallpaperUrl() {
     try {
-        const response = await axios.get(config.bingApiUrl, {
+        const response = await axios.get(config.wallpaperApiUrl, {
             httpAgent: agent,
             httpsAgent: agent,
         });
 
-        if (!response.data.images || !response.data.images.length) {
-            throw new Error('Invalid response from Bing API');
+        if (!response.data || !response.data.length) {
+            throw new Error('Invalid response from wallpaper API');
         }
 
-        const imageUrl = config.bingBaseUrl + response.data.images[0].url;
+        const imageUrl = response.data[0].fullUrl;
         log(`Retrieved wallpaper URL: ${imageUrl}`);
         return imageUrl;
     } catch (error) {
@@ -144,7 +144,7 @@ async function updateWallpaper() {
     
     try {
         // Get the wallpaper URL with retry logic
-        const url = await withRetry(() => getBingWallpaperUrl());
+        const url = await withRetry(() => getWallpaperUrl());
         
         // Prepare the filepath
         const filepath = path.join(__dirname, config.downloadDir, config.wallpaperFilename);

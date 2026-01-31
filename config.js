@@ -1,10 +1,7 @@
 // Configuration for Bing Wallpaper
 module.exports = {
-    // Bing wallpaper API URL
-    bingApiUrl: 'https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=ja-JP',
-    
-    // Base URL for Bing images
-    bingBaseUrl: 'https://www.bing.com',
+    // Peapix API URL (alternative Bing wallpaper provider)
+    wallpaperApiUrl: 'https://peapix.com/bing/feed?country=jp&n=1',
     
     // Wallpaper download directory
     downloadDir: 'download',
